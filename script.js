@@ -1,5 +1,3 @@
-let myLibrary = [book1, book2, book3, book4, book5];
-
 
 function Book(title, author, pages, status) {
     this.title = title
@@ -16,15 +14,8 @@ function addBookToLibrary() {
 
 }
 
-myLibrary.fill(book1, book2, book3);
 
-myLibrary.forEach(book => {
-    for (let key in book) {
-        const e = document.createElement('p');
-        e.textContent = `${book[key]}`;
-        document.body.appendChild(e);
-    }
-})
+
 
 const book1 = new Book("The Hobbit", "J.R.R. Tolkien", "295", "not read yet");
 const book2 = new Book("Harry Potter and the Goblet of Fire", "J. K. Rowling",
@@ -35,3 +26,11 @@ const book4 = new Book("Me Before You", "Jojo Moyes",
     "369", "read");
 const book5 = new Book("Educated", "Tara Westover",
     "334", "read");
+
+    let myLibrary = [book1, book2, book3, book4, book5];
+
+    myLibrary.forEach(book => {
+            const e = document.createElement('p');
+            e.textContent = book.info();
+            document.body.appendChild(e);
+    })
