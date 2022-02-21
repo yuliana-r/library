@@ -1,36 +1,108 @@
+let books = [];
 
-function Book(title, author, pages, status) {
+const DEFAULT_DATA = [{
+        title: "The Hobbit",
+        author: "J.R.R. Tolkien",
+        status: "not read"
+    },
+    {
+        title: "Harry Potter and the Goblet of Fire",
+        author: "J. K. Rowling",
+        status: "read"
+    },
+    {
+        title: "Educated",
+        author: "Tara Westover",
+        status: "read"
+    }
+];
+
+let tbody = document.querySelector('tbody');
+
+
+function Book(title, author, status) {
     this.title = title
     this.author = author
-    this.pages = pages
     this.status = status
-}
-
-Book.prototype.info = function () {
-    return this.title + " by " + this.author + ", " + this.pages + " pages, " + this.status;
 }
 
 function addBookToLibrary() {
 
 }
 
+const createStatusToggle = (book) => {
+    let statusCell = document.createElement('td');
+    let statusToggle = document.createElement('button');
+    statusToggle.textContent = "Change status";
+    //event listener for this
+
+    statusCell.appendChild(statusToggle);
+    return statusCell;
+}
 
 
 
-const book1 = new Book("The Hobbit", "J.R.R. Tolkien", "295", "not read yet");
-const book2 = new Book("Harry Potter and the Goblet of Fire", "J. K. Rowling",
-    "636", "read");
-const book3 = new Book("Pride and Prejudice", "Jane Austen",
-    "279", "read");
-const book4 = new Book("Me Before You", "Jojo Moyes",
-    "369", "read");
-const book5 = new Book("Educated", "Tara Westover",
-    "334", "read");
+const createDeleteBtn = (index) => {
+    let deleteCell = document.createElement('td');
+    let deleteBtn = document.createElement('button');
+    deleteBtn.textContent = "Delete";
 
-    let myLibrary = [book1, book2, book3, book4, book5];
-
-    myLibrary.forEach(book => {
-            const e = document.createElement('p');
-            e.textContent = book.info();
-            document.body.appendChild(e);
+    deleteBtn.addEventListener('click', () => {
+        books.splice(index, 1);
+        updateLocalStorage();
+        updateTable();
     })
+
+    deleteCell.appendChild(deleteBtn);
+    return deleteCell;
+}
+
+
+function updateLocalStorage() {
+    localStorage.setItem('my_books', JSON.stringify(books));
+}
+
+function checkLocalStorage() {
+    if (localStorage.getItem('my_books')) {
+        books = JSON.parse(localStorage.getItem('my_books'));
+    } else {
+        books = DEFAULT_DATA;
+    }
+}
+
+const updateTable = () => {
+
+    checkLocalStorage();
+    tbody.innerHTML = '';
+
+    books.forEach((book, index) => {
+
+        let row = document.createElement('tr');
+
+        Object.values(book).forEach(text => {
+
+            let cell = document.createElement('td');
+            let textNode = document.createTextNode(text);
+            cell.appendChild(textNode);
+            row.appendChild(cell);
+        })
+        row.appendChild(createStatusToggle(book));
+        row.appendChild(createDeleteBtn(index));
+        tbody.appendChild(row);
+    })
+}
+
+updateTable();
+
+// const book1 = new Book("The Hobbit", "J.R.R. Tolkien", "not read");
+// const book2 = new Book("Harry Potter and the Goblet of Fire", "J. K. Rowling",
+//     "read");
+// const book3 = new Book("Pride and Prejudice", "Jane Austen",
+//     "read");
+// const book4 = new Book("Me Before You", "Jojo Moyes",
+//     "read");
+// const book5 = new Book("Educated", "Tara Westover",
+//     "read");
+
+
+// books = [book1, book2, book3, book4, book5];
