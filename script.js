@@ -3,22 +3,31 @@ let books = [];
 const DEFAULT_DATA = [{
         title: "The Hobbit",
         author: "J.R.R. Tolkien",
-        status: "not read"
+        status: "Yes"
     },
     {
         title: "Harry Potter and the Goblet of Fire",
         author: "J. K. Rowling",
-        status: "read"
+        status: "Yes"
     },
     {
         title: "Educated",
         author: "Tara Westover",
-        status: "read"
+        status: "No"
     }
 ];
 
 let tbody = document.querySelector('tbody');
-
+let bookTitle = document.getElementById('title');
+let bookAuthor = document.getElementById('author');
+let readStatus = document.getElementById('status');
+let addBookBtn = document.getElementById('addBtn').addEventListener('click', () => {
+    if (bookAuthor.value == '' || bookTitle.value == '') {
+        return;
+    }
+    addBookToLibrary();
+    updateTable();
+})
 
 function Book(title, author, status) {
     this.title = title
@@ -27,20 +36,37 @@ function Book(title, author, status) {
 }
 
 function addBookToLibrary() {
+    if (readStatus.checked) {
+        readStatus = 'Yes';
+    } else {
+        readStatus = 'No';
+    }
 
+    const book = new Book(bookTitle.value, bookAuthor.value, readStatus);
+    books.push(book);
+    clearFields();
+    updateLocalStorage();
 }
 
-const createStatusToggle = (book) => {
+const createStatusButton = (book) => {
     let statusCell = document.createElement('td');
-    let statusToggle = document.createElement('button');
-    statusToggle.textContent = "Change status";
-    //event listener for this
+    let statusButton = document.createElement('button');
+    statusButton.textContent = "Change status";
 
-    statusCell.appendChild(statusToggle);
+    statusButton.addEventListener('click', () => {
+        console.log(book.status);
+
+        if (book.status === 'Yes') {
+            book.status = 'No';
+            updateTable();
+        } else {
+            book.status = 'Yes';
+            updateTable();
+        }
+    })
+    statusCell.appendChild(statusButton);
     return statusCell;
 }
-
-
 
 const createDeleteBtn = (index) => {
     let deleteCell = document.createElement('td');
@@ -55,19 +81,6 @@ const createDeleteBtn = (index) => {
 
     deleteCell.appendChild(deleteBtn);
     return deleteCell;
-}
-
-
-function updateLocalStorage() {
-    localStorage.setItem('my_books', JSON.stringify(books));
-}
-
-function checkLocalStorage() {
-    if (localStorage.getItem('my_books')) {
-        books = JSON.parse(localStorage.getItem('my_books'));
-    } else {
-        books = DEFAULT_DATA;
-    }
 }
 
 const updateTable = () => {
@@ -86,23 +99,28 @@ const updateTable = () => {
             cell.appendChild(textNode);
             row.appendChild(cell);
         })
-        row.appendChild(createStatusToggle(book));
+
+        row.appendChild(createStatusButton(book));
         row.appendChild(createDeleteBtn(index));
         tbody.appendChild(row);
     })
 }
 
+function clearFields() {
+    bookTitle.textContent = '';
+    bookAuthor.textContent = '';
+}
+
+function updateLocalStorage() {
+    localStorage.setItem('my_books', JSON.stringify(books));
+}
+
+function checkLocalStorage() {
+    if (localStorage.getItem('my_books')) {
+        books = JSON.parse(localStorage.getItem('my_books'));
+    } else {
+        books = DEFAULT_DATA;
+    }
+}
+
 updateTable();
-
-// const book1 = new Book("The Hobbit", "J.R.R. Tolkien", "not read");
-// const book2 = new Book("Harry Potter and the Goblet of Fire", "J. K. Rowling",
-//     "read");
-// const book3 = new Book("Pride and Prejudice", "Jane Austen",
-//     "read");
-// const book4 = new Book("Me Before You", "Jojo Moyes",
-//     "read");
-// const book5 = new Book("Educated", "Tara Westover",
-//     "read");
-
-
-// books = [book1, book2, book3, book4, book5];
