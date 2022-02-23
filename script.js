@@ -21,57 +21,47 @@ let tbody = document.querySelector('tbody');
 let bookTitle = document.getElementById('title');
 let bookAuthor = document.getElementById('author');
 let readStatus = document.getElementById('status');
-let addBookBtn = document.getElementById('addBtn').addEventListener('click', () => {
+
+let addBookBtn = document.getElementById('addBtn').addEventListener('click', (e) => {
     if (bookAuthor.value == '' || bookTitle.value == '') {
         return;
     }
+    e.preventDefault();
     addBookToLibrary();
+    updateLocalStorage();
     updateTable();
+    clearFields();
 })
 
-function Book(title, author, status) {
-    this.title = title
-    this.author = author
-    this.status = status
+class Book {
+    constructor(title, author, status) {
+        this.title = title;
+        this.author = author;
+        this.status = status;
+    }
 }
 
 function addBookToLibrary() {
-    if (readStatus.checked) {
+    if (readStatus.checked == true) {
         readStatus = 'Yes';
+        console.log("ticked");
     } else {
         readStatus = 'No';
+        console.log("not ticked");
     }
 
     const book = new Book(bookTitle.value, bookAuthor.value, readStatus);
     books.push(book);
     clearFields();
     updateLocalStorage();
-}
-
-const createStatusButton = (book) => {
-    let statusCell = document.createElement('td');
-    let statusButton = document.createElement('button');
-    statusButton.textContent = "Change status";
-
-    statusButton.addEventListener('click', () => {
-        console.log(book.status);
-
-        if (book.status === 'Yes') {
-            book.status = 'No';
-            updateTable();
-        } else {
-            book.status = 'Yes';
-            updateTable();
-        }
-    })
-    statusCell.appendChild(statusButton);
-    return statusCell;
+    updateTable();
 }
 
 const createDeleteBtn = (index) => {
     let deleteCell = document.createElement('td');
     let deleteBtn = document.createElement('button');
-    deleteBtn.textContent = "Delete";
+    deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+    deleteBtn.classList.add('deleteBtn');
 
     deleteBtn.addEventListener('click', () => {
         books.splice(index, 1);
@@ -81,6 +71,25 @@ const createDeleteBtn = (index) => {
 
     deleteCell.appendChild(deleteBtn);
     return deleteCell;
+}
+
+const createStatusButton = (book) => {
+    let statusCell = document.createElement('td');
+    let editStatusBtn = document.createElement('button');
+    editStatusBtn.innerHTML = '<i class="fa-solid fa-marker"></i>';
+    editStatusBtn.classList.add('editStatusBtn');
+
+    editStatusBtn.addEventListener('click', () => {
+        if (book.status === 'Yes') {
+            book.status = 'No';
+        } else {
+            book.status = 'Yes';
+        }
+        updateLocalStorage();
+        updateTable();
+    })
+    statusCell.appendChild(editStatusBtn);
+    return statusCell;
 }
 
 const updateTable = () => {
@@ -107,8 +116,8 @@ const updateTable = () => {
 }
 
 function clearFields() {
-    bookTitle.textContent = '';
-    bookAuthor.textContent = '';
+    bookTitle.value = '';
+    bookAuthor.value = '';
 }
 
 function updateLocalStorage() {
