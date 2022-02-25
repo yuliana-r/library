@@ -95,7 +95,8 @@ td {
 }
 
 .main {
-    width: 55%;
+    min-width: 60%;
+    margin: 0 1em;
 }
 
 .editStatusBtn,
