@@ -44,10 +44,8 @@ class Book {
 function addBookToLibrary() {
     if (readStatus.checked == true) {
         readStatus = 'Yes';
-        console.log("ticked");
     } else {
         readStatus = 'No';
-        console.log("not ticked");
     }
 
     const book = new Book(bookTitle.value, bookAuthor.value, readStatus);
@@ -118,6 +116,7 @@ const updateTable = () => {
 function clearFields() {
     bookTitle.value = '';
     bookAuthor.value = '';
+    readStatus.checked = true;
 }
 
 function updateLocalStorage() {

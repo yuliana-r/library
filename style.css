@@ -29,9 +29,11 @@ td {
 
 th {
     font-size: 20px;
+    font-weight: bold;
     text-align: left;
+    border-bottom: 1px #9a9da0 dotted;
+    color: #386b6d;
 }
-
 
 tbody:before {
     content: "@";
@@ -48,9 +50,12 @@ label {
 
 label,
 th {
-    color: #343A40;
     font-weight: bold;
     letter-spacing: 1px;
+}
+
+label {
+    color: #343A40;
 }
 
 h1 {
@@ -63,8 +68,8 @@ h1 {
 }
 
 table {
-    margin: 2em auto;
-    width: 60%;
+    margin: 2em 0;
+    width: 100%;
 }
 
 img {
