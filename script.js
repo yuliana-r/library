@@ -17,10 +17,11 @@ const DEFAULT_DATA = [{
     }
 ];
 
+let readStatus;
+
 let tbody = document.querySelector('tbody');
 let bookTitle = document.getElementById('title');
 let bookAuthor = document.getElementById('author');
-let readStatus = document.getElementById('status');
 
 let addBookBtn = document.getElementById('addBtn').addEventListener('click', (e) => {
     if (bookAuthor.value == '' || bookTitle.value == '') {
@@ -42,7 +43,7 @@ class Book {
 }
 
 function addBookToLibrary() {
-    if (readStatus.checked == true) {
+    if (document.querySelector('input[name="status"]:checked').value === 'Yes') {
         readStatus = 'Yes';
     } else {
         readStatus = 'No';
@@ -116,7 +117,6 @@ const updateTable = () => {
 function clearFields() {
     bookTitle.value = '';
     bookAuthor.value = '';
-    readStatus.checked = true;
 }
 
 function updateLocalStorage() {
