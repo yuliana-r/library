@@ -1,7 +1,16 @@
-# library
+# Library
+## Introduction
 
-Tab icon source - <a href="https://www.flaticon.com/">Flaticon</a>
+This project is an app that stores and displays books in a digital library. It is built using the standard front-end stack of HTML, CSS and JavaScript.
 
-Bookshelf image source - <a href="https://www.istockphoto.com/vector/books-on-the-bookshelf-hand-drawn-sketch-illustration-vector-with-transparent-gm1266468960-371276574">iStock</a>
+The project primarily demonstrates use of constructors/classes in JavaScript to create objects, as well as local storage.
 
-<img src="./images/demo.png">
+## Preview
+
+[![Library](./demo.png)](https://yuliana-r.github.io/library/)
+
+## Media credits:
+
+1. Flaticon: https://www.flaticon.com/free-icon/open-book
+
+2. iStock: https://www.istockphoto.com/vector/books-on-the-bookshelf-hand-drawn-sketch-illustration-vector-with-transparent-gm1266468960-371276574
